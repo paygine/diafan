@@ -116,7 +116,7 @@ function checkPaymentStatus($pay, $paygine_order_id, $paygine_operation_id)
         if ($order_id == 0)
             return false;
 
-        if (($response->type != 'PURCHASE' && $response->type != 'EPAYMENT') || $response->state != 'APPROVED')
+        if (($response->type != 'PURCHASE' && $response->type != 'PURCHASE_BY_QR' && $response->type != 'AUTHORIZE') || $response->state != 'APPROVED')
             return false;
 
         $tmp_response = json_decode(json_encode($response), true);
@@ -150,7 +150,7 @@ function orderAsPayed($response, $pay)
     if ($signature !== $response->signature)
         die("Invalid signature");
 
-    if (($response->type != 'PURCHASE' && $response->type != 'EPAYMENT' && $response->type != 'AUTHORIZE') || $response->state != 'APPROVED')
+    if (($response->type != 'PURCHASE' && $response->type != 'PURCHASE_BY_QR' && $response->type != 'AUTHORIZE') || $response->state != 'APPROVED')
         return false;
 
     return true;
